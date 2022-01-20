@@ -1,0 +1,51 @@
+---
+kind: pipeline
+name: jsonlogic
+type: docker
+workspace:
+  path: /root
+
+steps:
+- name: cache-deps
+  image: clojure:openjdk-17-lein
+  commands:
+  - lein deps
+
+- name: unit-test
+  image: clojure:openjdk-17-lein
+  depends_on:
+  - cache-deps
+  commands:
+  - lein test
+
+- name: snapshot
+  image: clojure:openjdk-17-lein
+  depends_on:
+  - unit-test
+  when:
+    branch:
+    - main
+    event:
+    - push
+  environment:
+    CLOJARS_USERNAME:
+      from_secret: clojars_username
+    CLOJARS_PASSWORD:
+      from_secret: clojars_password
+  commands:
+  - lein deploy snapshots
+
+- name: release
+  image: clojure:openjdk-17-lein
+  depends_on:
+  - unit-test
+  when:
+    event:
+    - tag
+  environment:
+    CLOJARS_USERNAME:
+      from_secret: clojars_username
+    CLOJARS_PASSWORD:
+      from_secret: clojars_password
+  commands:
+  - lein deploy release
