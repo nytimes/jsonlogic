@@ -5,7 +5,7 @@ A [jsonlogic][1] implementation for Clojure.
 ## Installation
 
 ``` clojure
-[nytimes/jsonlogic "TBD"]
+[com.nytimes/jsonlogic "TBD"]
 ```
 
 ## Usage
