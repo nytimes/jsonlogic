@@ -103,9 +103,10 @@
 (defmethod operate :default
   [rule _]
   (let [msg (str "Unrecognized operation "
-                 (if (map? rule)
-                   (first (keys rule))
-                   rule))]
+                 (pr-str
+                  (if (map? rule)
+                    (first (keys rule))
+                    rule)))]
     (throw (IllegalArgumentException. msg))))
 
 (derive Number ::primitive)
