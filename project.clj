@@ -4,7 +4,7 @@
   :license {:name "Apache License"
             :url  "http://www.apache.org/licenses/LICENSE-2.0"}
   :plugins [[lein-codox "0.10.7"]]
-  :dependencies [[org.clojure/clojure "1.10.3"]
+  :dependencies [[org.clojure/clojure "1.11.0"]
                  [org.clojure/tools.logging "1.2.4"]]
   :repl-options {:init-ns nytimes.jsonlogic}
   :jvm-opts ["--add-opens" "java.base/java.lang=ALL-UNNAMED"]

@@ -16,15 +16,6 @@
 
 (defmulti operate dispatch-operate)
 
-(defn update-keys
-  [m f]
-  ;; TODO remove once clojure 1.11 is released
-  (let [ret (persistent!
-             (reduce-kv (fn [acc k v] (assoc! acc (f k) v))
-                        (transient {})
-                        m))]
-                        (with-meta ret (meta m))))
-
 (defn parse
   [rule]
   (walk/postwalk
