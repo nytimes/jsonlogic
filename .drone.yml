@@ -48,4 +48,4 @@ steps:
     CLOJARS_PASSWORD:
       from_secret: clojars_password
   commands:
-  - lein deploy release
+  - lein deploy releases
