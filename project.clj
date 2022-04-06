@@ -1,4 +1,4 @@
-(defproject com.nytimes/jsonlogic "0.1.2"
+(defproject com.nytimes/jsonlogic "0.1.3-SNAPSHOT"
   :description "JsonLogic for Clojure"
   :url "https://github.com/nytimes/jsonlogic"
   :license {:name "Apache License"
