@@ -8,15 +8,18 @@
    (clojure.lang Symbol)
    (java.util Collection List Map)))
 
-(defn dispatch-operate [op _env]
+(defn ^:no-doc dispatch-operate [op _env]
   (log/debug :op (pr-str op))
   (if (and (map? op) (= 1 (count op)))
     (-> op keys first symbol)
     (type op)))
 
-(defmulti operate dispatch-operate)
+(defmulti operate
+  "Perform a JsonLogic operation. You may add custom operators by extending this
+  multimethod."
+  dispatch-operate)
 
-(defn parse
+(defn ^:no-doc parse
   [rule]
   (walk/postwalk
    (fn [node]
@@ -32,7 +35,7 @@
   ([rule env]
    (operate (parse rule) env)))
 
-(defn seek [pred coll] (first (filter #(pred %) coll)))
+(defn ^:no-doc seek [pred coll] (first (filter #(pred %) coll)))
 
 ;; ----------------------------------------------------------------------
 ;;  Coercion
@@ -80,22 +83,22 @@
 (defmethod coerce [String Long]        [x _] (Long/parseLong x))
 (defmethod coerce [nil Boolean]        [_ _] false)
 
-(defn coerce-coll
+(defn ^:no-doc coerce-coll
   [coll]
   (when-let [[x & xs] coll]
     (let [target-type (type x)]
       (into [x] (map #(coerce % target-type) xs)))))
 
-(defn coerce-double [x] (coerce x Double))
+(defn ^:no-doc coerce-double [x] (coerce x Double))
 
-(defn coerce-numeric
+(defn ^:no-doc coerce-numeric
   [xs]
   (when-let [target (seek number? xs)]
     (into [] (mapv #(coerce % (type target)) xs))))
 
-(defn bool [x] (coerce x Boolean))
-(defn falsy? [x]  (false? (bool x)))
-(defn truthy? [x] (true? (bool x)))
+(defn ^:no-doc bool [x] (coerce x Boolean))
+(defn ^:no-doc falsy? [x]  (false? (bool x)))
+(defn ^:no-doc truthy? [x] (true? (bool x)))
 
 ;; ----------------------------------------------------------------------
 ;; Operators
@@ -119,9 +122,9 @@
 (defmethod operate List        [x env] (mapv #(operate % env) x))
 (defmethod operate Map         [x env] (operate x env))
 
-(def separator #"\.")
+(def ^:no-doc separator #"\.")
 
-(defn path [s]
+(defn ^:no-doc path [s]
   (cond
     (= [] s)    []
     (nil? s)    []
@@ -129,7 +132,7 @@
     (int? s)    [s]
     :else       [s]))
 
-(defn get-path
+(defn ^:no-doc get-path
   ([env ks]
    (get-path env ks nil))
   ([env ks not-found]
@@ -145,7 +148,7 @@
           (recur sentinel env (next ks))))
       env))))
 
-(defn has-path?
+(defn ^:no-doc has-path?
   [env ks]
   (let [sentinel (Object.)]
     (not= sentinel (get-path env ks sentinel))))
