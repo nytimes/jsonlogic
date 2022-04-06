@@ -17,12 +17,14 @@
                                   [org.slf4j/slf4j-api "1.7.30"]
                                   [org.slf4j/slf4j-simple "1.7.30"]]}}
 
-  :repositories [["releases"  {:url      "https://clojars.org/repo",
-                               :username [:env/clojars_username]
-                               :password [:env/clojars_password]}]
-                 ["snapshots" {:url      "https://clojars.org/repo",
-                               :username [:env/clojars_username]
-                               :password [:env/clojars_password]}]]
+  :repositories [["releases"  {:url           "https://clojars.org/repo"
+                               :sign-releases false
+                               :username      [:env/clojars_username]
+                               :password      [:env/clojars_password]}]
+                 ["snapshots" {:url           "https://clojars.org/repo"
+                               :sign-releases false
+                               :username      [:env/clojars_username]
+                               :password      [:env/clojars_password]}]]
 
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
