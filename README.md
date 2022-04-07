@@ -14,7 +14,7 @@ A [jsonlogic][1] implementation for Clojure.
 ## Usage
 
 ```clojure
-(require '[nytimes.jsonlogic :as jsonlogic])
+(require '[com.nytimes.jsonlogic :as jsonlogic])
 
 (jsonlogic/apply {:if [true "Foo" "Bar"]})
 "Foo"
