@@ -8,7 +8,7 @@ A [jsonlogic][1] implementation for Clojure.
 ## Installation
 
 ```clojure
-[com.nytimes/jsonlogic "$VERSION"]
+[com.nytimes/jsonlogic "1.0.0"]
 ```
 
 ## Usage
